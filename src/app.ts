@@ -21,6 +21,5 @@ app.listen(port, host, () => {
   log.info(`Server listing at http://${host}:${port}`);
 
   connect();
-
   routes(app);
 });
