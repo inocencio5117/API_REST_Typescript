@@ -2,7 +2,7 @@ import { AnySchema } from 'yup';
 import { Request, Response, NextFunction } from 'express';
 import log from '../logger';
 
-export const validateRequest =
+const validate =
   (schema: AnySchema) =>
   async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
@@ -13,8 +13,10 @@ export const validateRequest =
       });
 
       return next();
-    } catch (err: any) {
-      log.error(err);
-      return res.status(400).send(err.erros);
+    } catch (e: any) {
+      log.error(e);
+      return res.status(400).send(e.errors);
     }
   };
+
+export default validate;

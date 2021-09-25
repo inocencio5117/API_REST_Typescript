@@ -7,16 +7,16 @@ export interface UserDocument extends mongoose.Document {
   email: string;
   name: string;
   password: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const UserSchema = new mongoose.Schema(
   {
-    email: { type: string, required: true, unique: true },
-    name: { type: string, required: true },
-    password: { type: string, required: true },
+    email: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true },
   },
   { timestamps: true }
 );
@@ -30,7 +30,7 @@ UserSchema.pre('save', async function (next) {
   //random additional data
   const salt = await bcrypt.genSalt(config.get('saltWorkFactor'));
 
-  const hash = await bcrypt.hashSync(user.password, salt);
+  const hash = bcrypt.hashSync(user.password, salt);
 
   //replace the password with the hash
   user.password = hash;
