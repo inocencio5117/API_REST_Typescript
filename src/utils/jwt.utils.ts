@@ -15,16 +15,16 @@ export function sign(object: any, options?: jwt.SignOptions | undefined): NotVoi
   return jwt.sign(object, privateKey, options);
 }
 
-export function decode(token: any): DecodeType {
+export function decode(token: string | any): DecodeType {
   try {
     const decoded = jwt.verify(token, privateKey);
 
     return { valid: true, expired: false, decoded };
-  } catch (err: any) {
-    log.error({ err });
+  } catch (error: any) {
+    log.error({ error });
     return {
       valid: false,
-      expired: err.message === 'jwt expired',
+      expired: error.message === 'jwt expired',
       decoded: null,
     };
   }

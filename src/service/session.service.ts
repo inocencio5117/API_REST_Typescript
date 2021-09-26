@@ -1,6 +1,6 @@
 import config from 'config';
 import { NotVoid, get } from 'lodash';
-import { LeanDocument } from 'mongoose';
+import { FilterQuery, LeanDocument, UpdateQuery } from 'mongoose';
 import Session, { SessionDocument } from '../model/session.model';
 import { UserDocument } from '../model/user.model';
 import { sign, decode } from '../utils/jwt.utils';
@@ -53,4 +53,17 @@ export async function reIssueAccessToken(refreshToken: unknown): Promise<any | b
   const accessToken = createAccessToken({ user, session });
 
   return accessToken;
+}
+
+export async function updateSession(
+  query: FilterQuery<SessionDocument>,
+  update: UpdateQuery<SessionDocument>
+): Promise<NotVoid> {
+  return Session.updateOne(query, update);
+}
+
+export async function findSessions(
+  query: FilterQuery<SessionDocument>
+): Promise<NotVoid> {
+  return Session.find(query).lean();
 }
